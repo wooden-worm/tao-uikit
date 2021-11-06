@@ -1,8 +1,8 @@
 use std::ffi::c_void;
 
-use objc::{class, msg_send, sel, sel_impl};
+use objc::{msg_send, sel, sel_impl};
 use objc_derive::selector_export;
-use tao_foundation::{GetObjcObject, NSArray, NSDictionary, NSURL, id};
+use tao_foundation::{GetObjcObject, NSArray, NSDictionary, NSString, NSURL, id};
 
 #[repr(transparent)]
 #[derive(Clone)]
@@ -22,7 +22,7 @@ impl UIDocumentPickerViewController {
 
 impl UIDocumentPickerViewController {
     #[selector_export("initForOpeningContentTypes:")]
-    pub fn init_for_opening_content_types(&self, contentTypes: NSArray) -> UIDocumentPickerViewController;
+    pub fn init_for_opening_content_types(&self, content_types: NSArray) -> UIDocumentPickerViewController;
 
     #[selector_export("setDelegate:")]
     pub fn set_delegate(&self, delegate: id);
@@ -115,7 +115,7 @@ impl UIViewController {
 
 impl UIViewController {
     #[selector_export("presentViewController:animated:completion:")]
-    pub fn present_view_controller_animated_completion(&self, viewControllerToPresent: id, animated: bool, completion: *const c_void);
+    pub fn present_view_controller_animated_completion(&self, view_controller_to_present: id, animated: bool, completion: *const c_void);
 }
 
 impl GetObjcObject for UIViewController {
@@ -153,6 +153,34 @@ impl UIDocumentInteractionController {
 }
 
 impl GetObjcObject for UIDocumentInteractionController {
+    fn objc_object(&self) -> id {
+        self.0
+    }
+}
+
+
+#[repr(transparent)]
+#[derive(Clone)]
+pub struct UISceneConfiguration(pub id);
+impl std::ops::Deref for UISceneConfiguration {
+    type Target = objc::runtime::Object;
+    fn deref(&self) -> &Self::Target {
+        unsafe { &*self.0 }
+    }
+}
+unsafe impl objc::Message for UISceneConfiguration {}
+impl UISceneConfiguration {
+    pub fn alloc() -> Self {
+        Self(unsafe { msg_send!(objc::class!(UISceneConfiguration), alloc) })
+    }
+}
+
+impl UISceneConfiguration {
+    #[selector_export("initWithName:sessionRole:")]
+    pub fn init_with_name_session_role(&self, name: NSString, session_role: NSString) -> Self;
+}
+
+impl GetObjcObject for UISceneConfiguration {
     fn objc_object(&self) -> id {
         self.0
     }
