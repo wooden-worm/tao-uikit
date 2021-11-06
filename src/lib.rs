@@ -1,6 +1,6 @@
 use std::ffi::c_void;
 
-use objc::{msg_send, sel, sel_impl};
+use objc::{msg_send, runtime::Class, sel, sel_impl};
 use objc_derive::selector_export;
 use tao_foundation::{GetObjcObject, NSArray, NSDictionary, NSString, NSURL, id};
 
@@ -189,7 +189,7 @@ impl UISceneConfiguration {
     pub fn configuration_with_name_session_role(name: NSString, session_role: NSString) -> Self;
 
     #[selector_export("setDelegateClass:")]
-    pub fn set_delegate_class(&self, delegate_class: id);
+    pub fn set_delegate_class(&self, delegate_class: Class);
 }
 
 impl GetObjcObject for UISceneConfiguration {
