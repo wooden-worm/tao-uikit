@@ -2,7 +2,7 @@ use std::ffi::c_void;
 
 use objc::{msg_send, runtime::Class, sel, sel_impl};
 use objc_derive::selector_export;
-use tao_foundation::{GetObjcObject, NSArray, NSDictionary, NSString, NSURL, id};
+use tao_foundation::{GetObjcObject, NSArray, NSDictionary, NSString, NSUInteger, NSURL, id};
 
 #[repr(transparent)]
 #[derive(Clone)]
@@ -190,6 +190,9 @@ impl UISceneConfiguration {
 
     #[selector_export("setDelegateClass:")]
     pub fn set_delegate_class(&self, delegate_class: Class);
+
+    #[selector_export("hash")]
+    pub fn hash(&self) -> NSUInteger;
 }
 
 impl GetObjcObject for UISceneConfiguration {
