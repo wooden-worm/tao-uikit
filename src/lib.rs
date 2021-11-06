@@ -88,6 +88,15 @@ impl UIWindow {
 impl UIWindow {
     #[selector_export("rootViewController")]
     pub fn root_view_controller(&self) -> UIViewController;
+
+    #[selector_export("setRootViewController:")]
+    pub fn set_root_view_controller(&self, root_view_controller: UIViewController);
+
+    #[selector_export("initWithWindowScene:")]
+    pub fn init_with_window_scene(&self, window_scene: id);
+
+    #[selector_export("makeKeyAndVisible")]
+    pub fn make_key_and_visible(&self);
 }
 
 impl GetObjcObject for UIWindow {
@@ -176,8 +185,11 @@ impl UISceneConfiguration {
 }
 
 impl UISceneConfiguration {
-    #[selector_export("initWithName:sessionRole:")]
-    pub fn init_with_name_session_role(&self, name: NSString, session_role: NSString) -> Self;
+    #[selector_export(UISceneConfiguration, "configurationWithName:sessionRole:")]
+    pub fn configuration_with_name_session_role(name: NSString, session_role: NSString) -> Self;
+
+    #[selector_export("setDelegateClass:")]
+    pub fn set_delegate_class(&self, delegate_class: id);
 }
 
 impl GetObjcObject for UISceneConfiguration {
