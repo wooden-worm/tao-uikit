@@ -93,7 +93,7 @@ impl UIWindow {
     pub fn set_root_view_controller(&self, root_view_controller: UIViewController);
 
     #[selector_export("initWithWindowScene:")]
-    pub fn init_with_window_scene(&self, window_scene: id);
+    pub fn init_with_window_scene(&self, window_scene: id) -> Self;
 
     #[selector_export("makeKeyAndVisible")]
     pub fn make_key_and_visible(&self);
