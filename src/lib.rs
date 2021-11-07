@@ -228,6 +228,9 @@ impl UIView {
 impl UIView {
     #[selector_export("setBackgroundColor:")]
     pub fn set_background_color(&self, background_color: UIColor);
+
+    #[selector_export("addSubview:")]
+    pub fn add_subview(&self, view: UIView);
 }
 
 impl GetObjcObject for UIView {
@@ -263,6 +266,34 @@ impl UIColor {
 }
 
 impl GetObjcObject for UIColor {
+    fn objc_object(&self) -> id {
+        self.0
+    }
+}
+
+
+#[repr(transparent)]
+#[derive(Clone)]
+pub struct UILabel(pub id);
+impl std::ops::Deref for UILabel {
+    type Target = objc::runtime::Object;
+    fn deref(&self) -> &Self::Target {
+        unsafe { &*self.0 }
+    }
+}
+unsafe impl objc::Message for UILabel {}
+impl UILabel {
+    pub fn alloc() -> Self {
+        Self(unsafe { msg_send!(objc::class!(UILabel), alloc) })
+    }
+}
+
+impl UILabel {
+    #[selector_export("setText:")]
+    pub fn set_text(&self, text: NSString) -> Self;
+}
+
+impl GetObjcObject for UILabel {
     fn objc_object(&self) -> id {
         self.0
     }
