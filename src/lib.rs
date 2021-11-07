@@ -1,8 +1,8 @@
 use std::ffi::c_void;
 
-use objc::{msg_send, runtime::Class, sel, sel_impl};
+use objc::{msg_send, sel, sel_impl};
 use objc_derive::selector_export;
-use tao_foundation::{GetObjcObject, NSArray, NSDictionary, NSString, NSUInteger, NSURL, id};
+use tao_foundation::{Class, GetObjcObject, NSArray, NSDictionary, NSString, NSUInteger, NSURL, id};
 
 #[repr(transparent)]
 #[derive(Clone)]
