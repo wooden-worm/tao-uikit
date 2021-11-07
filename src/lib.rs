@@ -125,6 +125,9 @@ impl UIViewController {
 impl UIViewController {
     #[selector_export("presentViewController:animated:completion:")]
     pub fn present_view_controller_animated_completion(&self, view_controller_to_present: id, animated: bool, completion: *const c_void);
+
+    #[selector_export("view")]
+    pub fn view(&self) -> UIView;
 }
 
 impl GetObjcObject for UIViewController {
@@ -196,6 +199,67 @@ impl UISceneConfiguration {
 }
 
 impl GetObjcObject for UISceneConfiguration {
+    fn objc_object(&self) -> id {
+        self.0
+    }
+}
+
+
+
+#[repr(transparent)]
+#[derive(Clone)]
+pub struct UIView(pub id);
+impl std::ops::Deref for UIView {
+    type Target = objc::runtime::Object;
+    fn deref(&self) -> &Self::Target {
+        unsafe { &*self.0 }
+    }
+}
+unsafe impl objc::Message for UIView {}
+impl UIView {
+    pub fn alloc() -> Self {
+        Self(unsafe { msg_send!(objc::class!(UIView), alloc) })
+    }
+}
+
+impl UIView {
+    #[selector_export("setBackgroundColor")]
+    pub fn set_background_color(&self, background_color: UIColor);
+}
+
+impl GetObjcObject for UIView {
+    fn objc_object(&self) -> id {
+        self.0
+    }
+}
+
+
+
+#[repr(transparent)]
+#[derive(Clone)]
+pub struct UIColor(pub id);
+impl std::ops::Deref for UIColor {
+    type Target = objc::runtime::Object;
+    fn deref(&self) -> &Self::Target {
+        unsafe { &*self.0 }
+    }
+}
+unsafe impl objc::Message for UIColor {}
+impl UIColor {
+    pub fn alloc() -> Self {
+        Self(unsafe { msg_send!(objc::class!(UIColor), alloc) })
+    }
+}
+
+impl UIColor {
+    #[selector_export(UIColor, "systemBlueColor")]
+    pub fn system_blue_color() -> Self;
+
+    #[selector_export(UIColor, "whiteColor")]
+    pub fn white_color() -> Self;
+}
+
+impl GetObjcObject for UIColor {
     fn objc_object(&self) -> id {
         self.0
     }
