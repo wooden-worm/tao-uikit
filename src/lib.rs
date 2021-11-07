@@ -128,6 +128,9 @@ impl UIViewController {
 
     #[selector_export("view")]
     pub fn view(&self) -> UIView;
+
+    #[selector_export("setView:")]
+    pub fn set_view(&self, view: UIView);
 }
 
 impl GetObjcObject for UIViewController {
