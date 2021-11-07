@@ -1,6 +1,6 @@
 use std::ffi::c_void;
 
-use objc::{msg_send, sel, sel_impl};
+use objc::{msg_send, runtime::BOOL, sel, sel_impl};
 use objc_derive::selector_export;
 use tao_foundation::{Class, GetObjcObject, NSArray, NSDictionary, NSString, NSUInteger, NSURL, id};
 
@@ -231,6 +231,9 @@ impl UIView {
 
     #[selector_export("addSubview:")]
     pub fn add_subview(&self, view: UIView);
+
+    #[selector_export("setTranslatesAutoresizingMaskIntoConstraints:")]
+    pub fn set_translates_autoresizing_mask_into_constraints(&self, value: BOOL);
 }
 
 impl GetObjcObject for UIView {
