@@ -223,7 +223,7 @@ impl UIView {
 }
 
 impl UIView {
-    #[selector_export("setBackgroundColor")]
+    #[selector_export("setBackgroundColor:")]
     pub fn set_background_color(&self, background_color: UIColor);
 }
 
